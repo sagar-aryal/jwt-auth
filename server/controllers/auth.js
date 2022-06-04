@@ -37,6 +37,7 @@ export const signup = async (req, res, next) => {
   }
 };
 
+// Login a user
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -45,10 +46,10 @@ export const signin = async (req, res, next) => {
     const user = await Users.findOne({ email }); // email = req.body.email
 
     if (user) {
-      // match password from user db
+      // match the hashed password from user db
       const match = bcrypt.compareSync(password, user.password);
       if (match) {
-        // generate access token
+        // create access token
         const accessToken = jwt.sign(
           {
             id: user._id,
@@ -57,6 +58,7 @@ export const signin = async (req, res, next) => {
           secret,
           { expiresIn: "1h" }
         );
+
         res
           .status(200)
           .json({ success: true, message: "successful", data: accessToken });
