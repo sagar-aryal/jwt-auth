@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import Users from "../models/Users.js";
 
 dotenv.config();
-const secret = process.env.SECRET_KEY;
+const secret = process.env.JWT_SECRET_KEY;
 
 // Register a user
 export const signup = async (req, res, next) => {

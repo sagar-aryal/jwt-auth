@@ -5,6 +5,7 @@ import cors from "cors";
 
 import connectDB from "./config/db.js";
 import authRouter from "./routes/auth.js";
+import { verifyAuth } from "./middlewares/verifyAuth.js";
 
 const app = express();
 
@@ -29,9 +30,13 @@ app.use(
 // cookieparser
 // app.use(cookieParser);
 
-/* app.get("/", (req, res) => {
-  res.status(200).json({ name: "server", status: "running" });
-}); */
+app.get("/", verifyAuth, (req, res) => {
+  res.status(200).json({
+    success: true,
+    message:
+      "This is our secret page. You are successfully verified and logged in.",
+  });
+});
 
 // routers
 app.use("/auth", authRouter);

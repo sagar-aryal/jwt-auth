@@ -2,15 +2,16 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
+const secret = process.env.JWT_SECRET_KEY;
 
 export const verifyAuth = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const authorization = req.headers.authorization;
 
-  if (authHeader) {
+  if (authorization) {
     try {
-      const token = authHeader.spilit(" ")[1];
+      const token = authorization.split(" ")[1];
 
-      const isValid = await jwt.verify(token, process.env.SECRET_KEY);
+      const isValid = await jwt.verify(token, secret);
 
       if (isValid) next();
       else {
