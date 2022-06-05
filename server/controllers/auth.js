@@ -1,11 +1,6 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 
 import Users from "../models/Users.js";
-
-dotenv.config();
-const secret = process.env.JWT_SECRET_KEY;
 
 // Register a user
 export const signup = async (req, res, next) => {
@@ -24,9 +19,13 @@ export const signup = async (req, res, next) => {
         password,
         isAdmin,
       });
+
+      // create access token
+      const accessToken = user.getAccessToken();
+
       res
         .status(200)
-        .json({ success: true, message: "successful", data: user });
+        .json({ success: true, message: "successful", data: accessToken });
     } else {
       res
         .status(400)
@@ -47,17 +46,10 @@ export const signin = async (req, res, next) => {
 
     if (user) {
       // match the hashed password from user db
-      const match = bcrypt.compareSync(password, user.password);
+      const match = await user.matchPassword(password);
       if (match) {
         // create access token
-        const accessToken = jwt.sign(
-          {
-            id: user._id,
-            isAdmin: user.isAdmin,
-          },
-          secret,
-          { expiresIn: "1h" }
-        );
+        const accessToken = user.getAccessToken();
 
         res
           .status(200)
