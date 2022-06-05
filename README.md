@@ -4,12 +4,8 @@ JWT in React and Node.js for authentication and authorization.
 
 # Learning outcomes
 
-- Node.js JWT Authentication
-- How to verify JWT
-- Node.js JWT Authorization
-- Node.js JWT Access Token
-- How to Send JWT to Server to Cookie
-- JWT Authentication
+- JWT for authorization and authentication by creating register, login and logout routes.
+- How to authorize users to use private routes by verifying JWT in the authorization header of the HTTP request .
 
 # Import links
 
