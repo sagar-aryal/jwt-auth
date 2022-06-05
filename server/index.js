@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-// import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db.js";
 import authRouter from "./routes/auth.js";
@@ -18,6 +18,9 @@ const port = process.env.PORT || 8000;
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
 
+// cookieparser
+app.use(cookieParser());
+
 // using cors
 app.use(
   cors({
@@ -26,9 +29,6 @@ app.use(
     credentials: true,
   })
 );
-
-// cookieparser
-// app.use(cookieParser);
 
 app.get("/", verifyAuth, (req, res) => {
   res.status(200).json({

@@ -14,9 +14,6 @@ export const verifyAuth = async (req, res, next) => {
       const isValid = await jwt.verify(token, secret);
 
       if (isValid) next();
-      else {
-      }
-      res.status(403).json({ success: false, message: "Invalid Token" });
     } catch (err) {
       res.status(403).json({ success: false, message: err.message });
     }
