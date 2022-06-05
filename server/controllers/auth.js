@@ -72,14 +72,24 @@ const sendTokenInCookie = (user, res) => {
   // create access token
   const accessToken = user.getAccessToken();
 
-  const options = {
+  res.cookie("accessToken", accessToken, {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-  };
+  });
 
-  res.status(200).cookie("accessToken", accessToken, options).json({
+  res.status(200).json({
     success: true,
     message: "successful",
     data: user,
   });
+};
+
+// Signout a user
+export const signout = (req, res) => {
+  res.cookie("accessToken", " ", {
+    expires: new Date(Date.now() + 10 * 1000),
+    http: true,
+  });
+
+  res.status(200).json({ status: true, message: "successful", data: {} });
 };
